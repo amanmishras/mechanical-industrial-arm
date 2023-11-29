@@ -1,0 +1,55 @@
+
+#include<Servo.h>
+Servo XServo;
+Servo YServo;
+Servo SServo;
+int XPin=A0;
+int YPin=A1;
+int SPin=1;
+int XVal;
+int YVal;
+int SVal;
+int XsPin=13;
+int YsPin=12;
+int SsPin=2;
+int WVX;
+int WVY;
+
+int buzzPin=8;
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(XPin,INPUT);
+  pinMode(YPin,INPUT);
+  pinMode(SPin,INPUT);
+  pinMode(buzzPin,OUTPUT);
+  digitalWrite(SPin,HIGH);
+  pinMode(XsPin,OUTPUT);
+   pinMode(YsPin,OUTPUT);
+  XServo.attach(XsPin);
+  YServo.attach(YsPin);
+  SServo.attach(SsPin);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  XVal=analogRead(XPin);
+  WVX=(180./1023.)*XVal;
+  YVal=analogRead(YPin);
+  WVY=(180./1023.)*YVal;
+   XServo.write(WVX);
+   YServo.write(WVY);
+  
+    SVal=digitalRead(SPin);
+    if(SVal==0){
+   SServo.write(160);}
+    if(SVal==1){
+   SServo.write(0);}
+    delay(500);
+    Serial.print(" X Value= ");
+    Serial.print( XVal);
+    Serial.print(" Y Value= ");
+     Serial.print( YVal);
+    Serial.print(" Switch Value=");
+     Serial.println( SVal);
+}
